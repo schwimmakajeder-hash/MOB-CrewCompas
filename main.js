@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let map = null;
   let marker = null;
+  let currentLat = null;
+  let currentLon = null;
 
   function initMap(lat, lon) {
     if (!map) {
@@ -43,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         shadowSize: [41, 41]
       });
 
-      marker = L.marker([lat, lon], {icon: redIcon}).addTo(map);
+      marker = L.marker([lat, lon], { icon: redIcon }).addTo(map);
       marker.bindPopup("<b>MOB Position</b>").openPopup();
     } else {
       map.setView([lat, lon], 16);
@@ -72,17 +74,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     statusText.innerText = 'Position wird abgerufen...';
     mobButton.style.transform = 'scale(0.9)';
-    
+
     // Attempt high accuracy position request
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
+        currentLat = position.coords.latitude;
+        currentLon = position.coords.longitude;
         const accuracy = position.coords.accuracy;
         const timestamp = new Date(position.timestamp);
 
-        latVal.innerText = formatCoord(lat, true);
-        lonVal.innerText = formatCoord(lon, false);
+        latVal.innerText = formatCoord(currentLat, true);
+        lonVal.innerText = formatCoord(currentLon, false);
         accVal.innerText = `± ${Math.round(accuracy)} m`;
         timeVal.innerText = timestamp.toLocaleTimeString('de-DE', { hour12: false });
 
@@ -94,11 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
         statusText.innerText = 'Drücken um Position sofort zu speichern';
         mobButton.style.transform = 'scale(1)';
 
-        initMap(lat, lon);
+        initMap(currentLat, currentLon);
       },
       (error) => {
         let msg = '';
-        switch(error.code) {
+        switch (error.code) {
           case error.PERMISSION_DENIED:
             msg = "Berechtigung auf Standort verweigert.";
             break;
@@ -126,11 +128,26 @@ document.addEventListener('DOMContentLoaded', () => {
   resetButton.addEventListener('click', () => {
     mapScreen.classList.remove('active');
     startScreen.classList.add('active');
-    
+
     // Clear values
     latVal.innerText = '--.------°';
     lonVal.innerText = '--.------°';
     accVal.innerText = '- m';
     timeVal.innerText = '--:--:--';
+    currentLat = null;
+    currentLon = null;
   });
+
+  const mapOverlay = document.getElementById('map-overlay');
+  const openMapsBtn = document.getElementById('open-maps-btn');
+
+  function openGoogleMaps() {
+    if (currentLat !== null && currentLon !== null) {
+      const url = `https://www.google.com/maps/search/?api=1&query=${currentLat},${currentLon}`;
+      window.open(url, '_blank');
+    }
+  }
+
+  if (mapOverlay) mapOverlay.addEventListener('click', openGoogleMaps);
+  if (openMapsBtn) openMapsBtn.addEventListener('click', openGoogleMaps);
 });
