@@ -1,6 +1,8 @@
 {
   "short_name": "MOB Crew",
   "name": "MOB Crew Compas",
+  "description": "Notfall-App zur sofortigen Speicherung der GPS-Position bei einem Mann-über-Bord Manöver inklusive Kartenanzeige und Navigation. Kann auch verwendet werden um nur die momentanen Koordinaten zu bekommen.",
+  "categories": ["navigation", "utilities"],
   "icons": [
     {
       "src": "icon-192.png",
