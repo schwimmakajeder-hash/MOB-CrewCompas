@@ -19,17 +19,10 @@
   "screenshots": [
     {
       "src": "screenshot1.png",
-      "sizes": "1080x1920",
+      "sizes": "738x1600",
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Startbildschirm mit MOB Button"
-    },
-    {
-      "src": "screenshot2.png",
-      "sizes": "1080x1920",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Kartenansicht mit GPS Koordinaten"
     }
   ],
   "start_url": "/",
