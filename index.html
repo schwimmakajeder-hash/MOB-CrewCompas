@@ -2,10 +2,15 @@
 <html lang="de">
 
 <head>
-  <link rel="manifest" href="/manifest.json" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#ff0000" /> <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
   <title>MOB - Mann über Bord</title>
+
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +21,6 @@
 
 <body>
   <div id="app">
-    <!-- Start Screen with MOB Button -->
     <div id="start-screen" class="screen active">
       <header class="header">
         <h1 class="title">MOB</h1>
@@ -35,7 +39,6 @@
       </main>
     </div>
 
-    <!-- Map Screen with Coordinates -->
     <div id="map-screen" class="screen">
       <div class="map-container">
         <div id="map"></div>
@@ -76,7 +79,18 @@
       </div>
     </div>
   </div>
+
   <script type="module" src="./main.js"></script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('Service Worker registriert!'))
+          .catch(err => console.log('Service Worker Fehler:', err));
+      });
+    }
+  </script>
 </body>
 
 </html>
